@@ -5,13 +5,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.client.RestTemplate;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 @SpringBootApplication
 @EnableScheduling
@@ -25,7 +27,6 @@ public class Application {
 
 		try {
 			ods = (OracleDataSource) connect();
-			System.out.println(ods.getConnection().toString());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
