@@ -58,6 +58,7 @@ public class Application {
 		dataSource.setURL("jdbc:oracle:thin:@localhost:1521:orcl");
 		dataSource.setImplicitCachingEnabled(true);
 		dataSource.setFastConnectionFailoverEnabled(true);
+
 		return dataSource;
 	}
 }
