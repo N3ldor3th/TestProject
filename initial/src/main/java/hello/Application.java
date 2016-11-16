@@ -40,12 +40,11 @@ public class Application {
 					"http://gturnquist-quoters.cfapps.io/api/random", Quote.class);
 			log.info(quote.toString());
 			Connection conn = ods.getConnection();
-			PreparedStatement pstmt =
-					conn.prepareStatement ("insert into QUOTE (TYPE, TEXT) values (?, ?)", Statement.RETURN_GENERATED_KEYS);
-			pstmt.setString(1,quote.getType());
-			pstmt.setString(2,quote.getValue().getQuote());
-			pstmt.execute();
-			pstmt.close();
+			PreparedStatement pst = conn.prepareStatement ("insert into QUOTE (TYPE, TEXT) values (?, ?)", Statement.RETURN_GENERATED_KEYS);
+			pst.setString(1,quote.getType());
+			pst.setString(2,quote.getValue().getQuote());
+			pst.execute();
+			pst.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
