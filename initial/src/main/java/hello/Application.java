@@ -24,7 +24,6 @@ public class Application {
 
 	public static void main(String args[]) {
 		SpringApplication.run(Application.class);
-
 		try {
 			ods = (OracleDataSource) connect();
 		} catch (SQLException e) {
