@@ -51,6 +51,7 @@ public class Application {
 
 	public static DataSource connect() throws SQLException{
 		OracleDataSource dataSource = new OracleDataSource();
+
 		dataSource.setUser("kuznijan");
 		dataSource.setPassword("Haniszek232629jj");
 		dataSource.setURL("jdbc:oracle:thin:@localhost:1521:orcl");
