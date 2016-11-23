@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="kuznijan (generated)" id="1479909556133-1">
+        <createSequence cacheSize="20" cycle="false" incrementBy="1" maxValue="9999999999999999999999999999" minValue="1" ordered="false" sequenceName="ISEQ$$_92170" startValue="21"/>
+    </changeSet>
+    <changeSet author="kuznijan (generated)" id="1479909556133-2">
+        <createSequence cacheSize="20" cycle="false" incrementBy="1" maxValue="9999999999999999999999999999" minValue="1" ordered="false" sequenceName="ISEQ$$_92173" startValue="61"/>
+    </changeSet>
+    <changeSet author="kuznijan (generated)" id="1479909556133-3">
+        <createTable tableName="QUOTE">
+            <column name="TYPE" type="VARCHAR2(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TEXT" type="VARCHAR2(300)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="&quot;KUZNIJAN&quot;.&quot;ISEQ$$_92173&quot;.nextval" name="ID" type="NUMBER(*, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TEXT_ID" type="NUMBER(10, 0)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
