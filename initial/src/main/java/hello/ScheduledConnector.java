@@ -20,25 +20,27 @@ import java.sql.Statement;
 public class ScheduledConnector {
     private final RestTemplate restTemplate = new RestTemplate();
     private static final Logger log = LoggerFactory.getLogger(Application.class);
-    @Autowired private DataSource ods;
+    @Autowired private DataSource dataSource;
 
     @Scheduled(fixedRate = 1000)
     public void getQuote (){
 
         try {
-            final Quote quote = restTemplate.getForObject(
-                    "http://gturnquist-quoters.cfapps.io/api/random", Quote.class);
+            final Quote quote = restTemplate.getForObject("http://gturnquist-quoters.cfapps.io/api/random", Quote.class);
             log.info(quote.toString());
-            final Connection conn = ods.getConnection();
-            final PreparedStatement pst;
-            pst = conn.prepareStatement ("insert into QUOTE (TYPE, TEXT, TEXT_ID) values (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            pst.setString(1,quote.getType());
-            pst.setString(2,quote.getValue().getQuote());
-            pst.setInt(3,quote.getValue().getId().intValue());
-            pst.execute();
-            pst.close();
+            saveQuote(quote);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void saveQuote(Quote quote) throws SQLException {
+        final Connection conn = dataSource.getConnection();
+        final PreparedStatement pst = conn.prepareStatement ("insert into QUOTE (TYPE, TEXT, TEXT_ID) values (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+        pst.setString(1,quote.getType());
+        pst.setString(2,quote.getValue().getQuote());
+        pst.setInt(3,quote.getValue().getId().intValue());
+        pst.execute();
+        pst.close();
     }
 }
