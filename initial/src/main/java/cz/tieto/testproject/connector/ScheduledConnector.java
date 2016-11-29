@@ -17,8 +17,8 @@ import java.sql.SQLException;
  */
 @Component
 public class ScheduledConnector {
-    public static final String URL = "http://gturnquist-quoters.cfapps.io/api/random";
-    public static final int FIXED_RATE = 3000; // 3 seconds
+    private static final String URL = "http://gturnquist-quoters.cfapps.io/api/random";
+    private static final int FIXED_RATE = 3000; // 3 seconds
     private final RestTemplate restTemplate = new RestTemplate();
     private static final Logger log = LoggerFactory.getLogger(Application.class);
     @Autowired
