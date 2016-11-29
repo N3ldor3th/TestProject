@@ -10,25 +10,24 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  * Created by kuznijan on 23-Nov-16.
  */
 @Component
 public class ScheduledConnector {
+    public static final String URL = "http://gturnquist-quoters.cfapps.io/api/random";
+    public static final int FIXED_RATE = 3000; // 3 seconds
     private final RestTemplate restTemplate = new RestTemplate();
     private static final Logger log = LoggerFactory.getLogger(Application.class);
-    @Autowired private QuoteDAO quoteDAO;
+    @Autowired
+    private QuoteDAO quoteDAO;
 
-    @Scheduled(fixedRate = 3000)
+    @Scheduled(fixedRate = FIXED_RATE)
     public void getQuote (){
         try {
-            final Quote quote = restTemplate.getForObject("http://gturnquist-quoters.cfapps.io/api/random", Quote.class);
+            final Quote quote = restTemplate.getForObject(URL, Quote.class);
             log.info(quote.toString());
             quoteDAO.saveQuote(quote);
         } catch (SQLException e) {

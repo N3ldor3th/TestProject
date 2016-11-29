@@ -16,12 +16,14 @@ import java.sql.SQLException;
 
 @Component
 public class Configuration {
-    @Value("${spring.datasource.username}") private String username;
-    @Value("${spring.datasource.password}") private String password;
-    @Value("${spring.datasource.url}") private String url;
+    @Value("${spring.datasource.username}")
+    private String username;
+    @Value("${spring.datasource.password}")
+    private String password;
+    @Value("${spring.datasource.url}")
+    private String url;
 
     @Bean
-    @ConfigurationProperties(prefix="spring.datasource")
     public DataSource connect() throws SQLException {
         OracleDataSource dataSource = new OracleDataSource();
         dataSource.setUser(username);

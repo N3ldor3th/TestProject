@@ -15,7 +15,8 @@ import java.sql.Statement;
  */
 @Component
 public class QuoteDAO {
-    @Autowired private DataSource dataSource;
+    @Autowired
+    private DataSource dataSource;
 
     public void saveQuote(Quote quote) throws SQLException {
         final Connection conn = dataSource.getConnection();
