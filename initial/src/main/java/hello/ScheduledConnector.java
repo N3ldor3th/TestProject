@@ -22,9 +22,8 @@ public class ScheduledConnector {
     private static final Logger log = LoggerFactory.getLogger(Application.class);
     @Autowired private DataSource dataSource;
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 3000)
     public void getQuote (){
-
         try {
             final Quote quote = restTemplate.getForObject("http://gturnquist-quoters.cfapps.io/api/random", Quote.class);
             log.info(quote.toString());

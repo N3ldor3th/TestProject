@@ -2,6 +2,7 @@ package hello;
 
 import liquibase.integration.spring.SpringLiquibase;
 import oracle.jdbc.pool.OracleDataSource;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +21,7 @@ public class Configuration {
     @Value("${spring.datasource.url}") private String url;
 
     @Bean
+    @ConfigurationProperties(prefix="spring.datasource")
     public DataSource connect() throws SQLException {
         OracleDataSource dataSource = new OracleDataSource();
         dataSource.setUser(username);
