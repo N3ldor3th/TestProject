@@ -1,4 +1,4 @@
-package hello;
+package cz.tieto.testproject.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

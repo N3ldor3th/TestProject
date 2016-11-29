@@ -1,4 +1,4 @@
-package hello;
+package cz.tieto.testproject.config;
 
 import liquibase.integration.spring.SpringLiquibase;
 import oracle.jdbc.pool.OracleDataSource;

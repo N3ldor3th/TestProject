@@ -8,6 +8,20 @@
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <changeSet author="kuznijan" id="1">
+        <createTable tableName="QUOTE">
+            <column name="TYPE" type="VARCHAR2(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TEXT" type="VARCHAR2(300)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="&quot;KUZNIJAN&quot;.&quot;ISEQ$$_92173&quot;.nextval" name="ID" type="NUMBER(*, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="kuznijan" id="2" >
         <addColumn tableName="quote">
             <column name="text_id" type="integer" />
         </addColumn>
