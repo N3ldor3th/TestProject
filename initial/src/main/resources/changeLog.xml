@@ -15,7 +15,7 @@
             <column name="TEXT" type="VARCHAR2(300)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="&quot;KUZNIJAN&quot;.&quot;ISEQ$$_92173&quot;.nextval" name="ID" type="NUMBER(*, 0)">
+            <column defaultValueComputed="&quot;KUZNIJAN&quot;.&quot;ISEQ$$_92173&quot;.nextval" name="ID" type="NUMBER(10, 0)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -23,7 +23,7 @@
 
     <changeSet author="kuznijan" id="2" >
         <addColumn tableName="quote">
-            <column name="text_id" type="integer" />
+            <column name="text_id" type="NUMBER(10, 0)" />
         </addColumn>
     </changeSet>
 

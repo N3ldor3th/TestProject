@@ -18,7 +18,7 @@ import java.sql.SQLException;
 @Component
 public class ScheduledConnector {
     private static final String URL = "http://gturnquist-quoters.cfapps.io/api/random";
-    private static final int FIXED_RATE = 3000; // 3 seconds
+    private static final int FIXED_RATE = 30000;
     private final RestTemplate restTemplate = new RestTemplate();
     private static final Logger log = LoggerFactory.getLogger(Application.class);
     @Autowired
@@ -26,12 +26,8 @@ public class ScheduledConnector {
 
     @Scheduled(fixedRate = FIXED_RATE)
     public void getQuote (){
-        try {
-            final Quote quote = restTemplate.getForObject(URL, Quote.class);
-            log.info(quote.toString());
-            quoteDAO.saveQuote(quote);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        final Quote quote = restTemplate.getForObject(URL, Quote.class);
+        log.info(quote.toString());
+        quoteDAO.saveQuote(quote);
     }
 }

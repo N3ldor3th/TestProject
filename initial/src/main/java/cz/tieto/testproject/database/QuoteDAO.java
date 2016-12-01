@@ -1,14 +1,14 @@
 package cz.tieto.testproject.database;
 
 import cz.tieto.testproject.domain.Quote;
+import cz.tieto.testproject.mapper.QuoteRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 /**
  * Created by kuznijan on 26-Nov-16.
@@ -16,15 +16,41 @@ import java.sql.Statement;
 @Component
 public class QuoteDAO {
     @Autowired
-    private DataSource dataSource;
+    private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private QuoteRowMapper quoteRowMapper;
 
-    public void saveQuote(Quote quote) throws SQLException {
-        final Connection conn = dataSource.getConnection();
-        final PreparedStatement pst = conn.prepareStatement ("insert into QUOTE (TYPE, TEXT, TEXT_ID) values (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-        pst.setString(1,quote.getType());
-        pst.setString(2,quote.getValue().getQuote());
-        pst.setInt(3,quote.getValue().getId().intValue());
-        pst.execute();
-        pst.close();
+    @Transactional
+    public void saveQuote(Quote quote) {
+        final String INSERT_QUOTE = "insert into QUOTE (TYPE, TEXT, ID, TEXT_ID) values (?, ?, ?, ?)";
+        jdbcTemplate.update(INSERT_QUOTE, quote.getType(), quote.getValue().getQuote(), Statement.RETURN_GENERATED_KEYS, quote.getValue().getId() );
     }
+
+    public List<Quote> getQuotes() {
+        final String SELECT_ALL_QUOTES = "SELECT * FROM QUOTE";
+        List<Quote> quotes = jdbcTemplate.query(SELECT_ALL_QUOTES, quoteRowMapper);
+        return quotes;
+    }
+
+    public Quote getQuote(Long id) {
+        final String SELECT_QUOTE_BY_ID = "SELECT * FROM QUOTE WHERE ID = ?";
+        Quote quote = (Quote) jdbcTemplate.queryForObject(SELECT_QUOTE_BY_ID, quoteRowMapper, id);
+        return quote;
+    }
+
+    /*    public void saveQuote(Quote quote) {
+        final Connection conn;
+        final PreparedStatement pst;
+        try {
+            conn = dataSource.getConnection();
+            pst = conn.prepareStatement("insert into QUOTE (TYPE, TEXT, TEXT_ID) values (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            pst.setString(1, quote.getType());
+            pst.setString(2, quote.getValue().getQuote());
+            pst.setInt(3, quote.getValue().getId().intValue());
+            pst.execute();
+            pst.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }*/
 }

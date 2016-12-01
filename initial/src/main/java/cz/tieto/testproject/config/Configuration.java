@@ -2,10 +2,10 @@ package cz.tieto.testproject.config;
 
 import liquibase.integration.spring.SpringLiquibase;
 import oracle.jdbc.pool.OracleDataSource;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -35,10 +35,16 @@ public class Configuration {
     }
 
     @Bean
-    public SpringLiquibase liquibase() throws SQLException {
+    public JdbcTemplate jdbcTemplate(DataSource dataSource)
+    {
+        return new JdbcTemplate(dataSource);
+    }
+
+    @Bean
+    public SpringLiquibase liquibase(DataSource dataSource) throws SQLException {
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setChangeLog("classpath:changeLog.xml");
-        liquibase.setDataSource(connect());
+        liquibase.setDataSource(dataSource);
         return liquibase;
     }
 }
