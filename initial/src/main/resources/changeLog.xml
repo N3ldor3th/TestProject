@@ -15,7 +15,7 @@
             <column name="TEXT" type="VARCHAR2(300)">
                 <constraints nullable="false"/>
             </column>
-            <column defaultValueComputed="&quot;KUZNIJAN&quot;.&quot;ISEQ$$_92173&quot;.nextval" name="ID" type="NUMBER(10, 0)">
+            <column defaultValueComputed="&quot;KUZNIJAN&quot;.&quot;ISEQ$$_92173&quot;.nextval" name="ID" type="NUMBER(*, 0)">
                 <constraints nullable="false"/>
             </column>
         </createTable>

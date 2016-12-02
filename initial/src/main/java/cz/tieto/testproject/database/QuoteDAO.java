@@ -4,10 +4,12 @@ import cz.tieto.testproject.domain.Quote;
 import cz.tieto.testproject.mapper.QuoteRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.util.List;
 
 /**
@@ -22,8 +24,18 @@ public class QuoteDAO {
 
     @Transactional
     public void saveQuote(Quote quote) {
-        final String INSERT_QUOTE = "insert into QUOTE (TYPE, TEXT, ID, TEXT_ID) values (?, ?, ?, ?)";
-        jdbcTemplate.update(INSERT_QUOTE, quote.getType(), quote.getValue().getQuote(), Statement.RETURN_GENERATED_KEYS, quote.getValue().getId() );
+        final String INSERT_QUOTE = "insert into QUOTE (TYPE, TEXT, TEXT_ID) values (?, ?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(
+                con -> {
+                    PreparedStatement pst =
+                            con.prepareStatement(INSERT_QUOTE, new String[] {"ID"});
+                    pst.setString(1, quote.getType());
+                    pst.setString(2, quote.getValue().getQuote());
+                    pst.setInt(3, quote.getValue().getId().intValue());
+                    return pst;
+                },
+                keyHolder);
     }
 
     public List<Quote> getQuotes() {
